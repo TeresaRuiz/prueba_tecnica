@@ -102,7 +102,6 @@ if (isset($_GET['action'])) {
                     !$usuarios->setNombreUsuario($_POST['nombre_usuario'])
                     || !$usuarios->setCorreoUsuario($_POST['correo_usuario'])
                     || !$usuarios->setUsernameUsuario($_POST['username_usuario'])
-                    || !$usuarios->setContrasenaUsuario($_POST['password_usuario']) // Asegúrate de que el campo de contraseña es correcto
                     || !$usuarios->setFechaNacimiento($_POST['fecha_nacimiento'])
                     || !$usuarios->setTelefonoUsuario($_POST['telefono_usuario'])
                     || !$usuarios->setDireccionUsuario($_POST['direccion_usuario'])

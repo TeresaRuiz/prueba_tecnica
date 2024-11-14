@@ -87,15 +87,14 @@ class UsuariosHandler
     {
         // Consulta SQL para actualizar los datos
         $sql = 'UPDATE TB_USUARIOS
-                SET nombre_usuario = ?, correo_usuario = ?, username_usuario = ?, 
-                    password_usuario = ?, fecha_nacimiento = ?, telefono_usuario = ?, 
+                SET nombre_usuario = ?, correo_usuario = ?, username_usuario = ?, fecha_nacimiento = ?, telefono_usuario = ?, 
                     direccion_usuario = ?, id_rol = ?, id_estado = ?
                 WHERE id_usuario = ?';
 
         // Parámetros para la consulta
         $params = array(
             $this->nombre_usuario, $this->correo_usuario, $this->username_usuario,
-            $this->password_usuario, $this->fecha_nacimiento, $this->telefono_usuario,
+            $this->fecha_nacimiento, $this->telefono_usuario,
             $this->direccion_usuario, $this->id_rol, $this->id_estado, $this->id_usuario
         );
 
