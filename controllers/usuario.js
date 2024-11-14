@@ -111,6 +111,7 @@ const openCreate = () => {
     SAVE_FORM.reset();
     fillSelect(ROLES_API, 'readAll', 'nombreRol');
     fillSelect(ESTADO_API, 'readAll', 'Estado');
+    ID_USUARIO.value = ''; // Asegura que el ID esté vacío al crear
 };
 
 // Función para abrir el modal de actualizar

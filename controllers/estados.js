@@ -94,6 +94,7 @@ const fillTable = async (form = null) => {
 const openCreate = () => {
     SAVE_MODAL.show();
     SAVE_FORM.reset();
+    ID_ESTADO.value = ''; 
 };
 
 // Función para abrir el modal de actualizar
