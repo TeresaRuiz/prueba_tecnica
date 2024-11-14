@@ -77,12 +77,11 @@ const fillTable = async (form = null) => {
                 TABLE_BODY.innerHTML += `
                     <tr>
                          <td>${row.id_usuario}</td>
-            <td>${row.username_usuario}</td>
-             <td>${row.correo_usuario}</td>
-             <td>${row.id_rol}</td>
-            <td>${row.id_estado}</td>
-            <td>${row.fecha_registro}</td>
-            
+                         <td>${row.username_usuario}</td>
+                         <td>${row.correo_usuario}</td>
+                         <td>${row.nombre_rol}</td>
+                         <td>${row.nombre_estado}</td>
+                         <td>${row.fecha_registro}</td>
                         <td>
                             <button class="btn btn-sm btn-outline-primary me-1" 
                                     onclick="openUpdate(${row.id_usuario})">
@@ -128,6 +127,14 @@ const openUpdate = async (id) => {
             ID_USUARIO.value = ROW.id_usuario;
             USERNAME.value = ROW.username_usuario;
             CORREO.value = ROW.correo_usuario;
+            NOMBRE_U.value = ROW.nombre_usuario;
+            CONTRASEÑA.value = ROW.password_usuario; 
+            CONFIRMAR.value = ROW.password_usuario; 
+            NACIMIENTO.value = ROW.fecha_nacimiento;
+            TEL.value = ROW.telefono_usuario;
+            document.getElementById('direccion_usuario').value = ROW.direccion_usuario;
+            fillSelect(ROLES_API, 'readAll', 'nombreRol', parseInt(ROW.id_rol));
+            fillSelect(ESTADO_API, 'readAll', 'Estado', parseInt(ROW.id_estado));
         } else {
             await sweetAlert(2, DATA.error, false);
         }
@@ -137,6 +144,7 @@ const openUpdate = async (id) => {
         toggleLoading(false);
     }
 };
+
 
 /*
 *   Función asíncrona para eliminar un registro.

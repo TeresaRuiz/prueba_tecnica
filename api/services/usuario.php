@@ -30,31 +30,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No hay coincidencias';
                 }
                 break;
-
-            case 'createRow':
-                $_POST = Validator::validateForm($_POST);
-                if (
-                    !$usuarios->setNombre($_POST['nombre_usuario']) or
-                    !$usuarios->setCorreo($_POST['correo_usuario']) or
-                    !$usuarios->setUsername($_POST['username_usuario']) or
-                    !$usuarios->setFecha($_POST['fecha_nacimiento']) or
-                    !$usuarios->setTelefono($_POST['telefono_usuario']) or
-                    !$usuarios->setDireccion($_POST['direccion_usuario']) or
-                    !$usuarios->setIdEstado($_POST['Estado']) or
-                    !$usuarios->setNombreRol($_POST['nombreRol']) or
-                    !$usuarios->setClave($_POST['password_usuario'])
-                ) {
-                    $result['error'] = $usuarios->getDataError();
-                } elseif ($_POST['password_usuario'] != $_POST['password_confirmar']) {
-                    $result['error'] = 'Contraseñas diferentes';
-                } elseif ($usuarios->createRow()) {
-                    $result['status'] = 1;
-                    $result['message'] = 'Usuario creado correctamente';
-                } else {
-                    $result['error'] = 'Ocurrió un problema al crear el usuario';
-                }
-                break;
-
             case 'readAll':
                 if ($result['dataset'] = $usuarios->readAll()) {
                     $result['status'] = 1;
@@ -63,7 +38,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'No existen usuarios registrados';
                 }
                 break;
-
             case 'readOne':
                 if (!$usuarios->setId($_POST['idUsuario'])) {
                     $result['error'] = $usuarios->getDataError();
@@ -73,32 +47,6 @@ if (isset($_GET['action'])) {
                     $result['error'] = 'Usuario inexistente';
                 }
                 break;
-
-            case 'updateRow':
-                $_POST = Validator::validateForm($_POST);
-
-                // Verificar y establecer los datos del rol
-                if (
-                    !$usuarios->setId($_POST['idUsuario']) ||
-                    !$usuarios->setNombre($_POST['nombre_u']) or
-                    !$usuarios->setCorreo($_POST['correo_usuario']) or
-                    !$usuarios->setUsername($_POST['username_usuario']) or
-                    !$usuarios->setFecha($_POST['fecha_nacimiento']) or
-                    !$usuarios->setTelefono($_POST['telefono_usuario']) or
-                    !$usuarios->setDireccion($_POST['direccion_usuario']) or
-                    !$usuarios->setIdEstado($_POST['Estado']) or
-                    !$usuarios->setNombreRol($_POST['nombreRol'])
-                ) {
-                    $result['error'] = $usuarios->getDataError();
-                } elseif ($usuarios->updateRow()) {
-                    $nombreRol = $_POST['nombre_u']; // Nombre actualizado
-                    $result['status'] = 1;
-                    $result['message'] = "Usuario '$nombreRol' modificado correctamente.";
-                } else {
-                    $result['error'] = 'Ocurrió un problema al modificar el rol.';
-                }
-                break;
-
             case 'deleteRow':
                 if (!$usuarios->setId($_POST['idUsuario'])) {
                     $result['error'] = $usuarios->getDataError();
@@ -109,6 +57,66 @@ if (isset($_GET['action'])) {
                     } else {
                         $result['error'] = 'Ocurrió un problema al eliminar el rol.';
                     }
+                }
+                break;
+            case 'createRow':
+                // Validar form data
+                $_POST = Validator::validateForm($_POST);
+
+                //Verificar contraseñas iguales
+                if ($_POST['password_usuario'] !== $_POST['password_confirmar']) {
+                    $result['error'] = 'Las contraseñas no coinciden';
+                } else {
+                    // Assign form values to user object
+                    if (
+                        !$usuarios->setNombreUsuario($_POST['nombre_usuario'])
+                        || !$usuarios->setCorreoUsuario($_POST['correo_usuario'])
+                        || !$usuarios->setUsernameUsuario($_POST['username_usuario'])
+                        || !$usuarios->setContrasenaUsuario($_POST['password_usuario'])
+                        || !$usuarios->setFechaNacimiento($_POST['fecha_nacimiento'])
+                        || !$usuarios->setTelefonoUsuario($_POST['telefono_usuario'])
+                        || !$usuarios->setDireccionUsuario($_POST['direccion_usuario'])
+                        || !$usuarios->setIdRol($_POST['id_rol'])
+                        || !$usuarios->setIdEstado($_POST['id_estado'])
+                    ) {
+                        $result['error'] = $usuarios->getDataError();
+                    }
+                    // Create new user
+                    elseif ($usuarios->createRow()) {
+                        $result['status'] = 1;
+                        $result['message'] = 'Usuario creado correctamente';
+                    } else {
+                        $result['error'] = 'Error al crear el usuario';
+                    }
+                }
+                break;
+                
+            case 'updateRow':
+                // Validate form data
+                $_POST = Validator::validateForm($_POST);
+
+                // Assign form values to user object
+                if (!$usuarios->setId($_POST['idUsuario'])) {
+                    $result['error'] = $usuarios->getDataError();
+                } elseif (
+                    !$usuarios->setNombreUsuario($_POST['nombre_usuario'])
+                    || !$usuarios->setCorreoUsuario($_POST['correo_usuario'])
+                    || !$usuarios->setUsernameUsuario($_POST['username_usuario'])
+                    || !$usuarios->setContrasenaUsuario($_POST['password_usuario']) // Asegúrate de que el campo de contraseña es correcto
+                    || !$usuarios->setFechaNacimiento($_POST['fecha_nacimiento'])
+                    || !$usuarios->setTelefonoUsuario($_POST['telefono_usuario'])
+                    || !$usuarios->setDireccionUsuario($_POST['direccion_usuario'])
+                    || !$usuarios->setIdRol($_POST['id_rol'])
+                    || !$usuarios->setIdEstado($_POST['id_estado'])
+                ) {
+                    $result['error'] = $usuarios->getDataError();
+                }
+                // Update user
+                elseif ($usuarios->updateRow()) {
+                    $result['status'] = 1;
+                    $result['message'] = 'Usuario actualizado correctamente';
+                } else {
+                    $result['error'] = 'Error al actualizar el usuario';
                 }
                 break;
         }

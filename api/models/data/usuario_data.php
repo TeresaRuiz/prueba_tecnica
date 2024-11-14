@@ -17,14 +17,14 @@ class usuarioData extends UsuariosHandler
     public function setId($value)
     {
         if (Validator::validateNaturalNumber($value)) {
-            $this->id = $value;
+            $this->id_usuario = $value;
             return true;
         } else {
             $this->data_error = 'El identificador del usuario es incorrecto';
             return false;
         }
     }
-    public function setNombre($value, $min = 2, $max = 50)
+    public function setNombreUsuario($value, $min = 2, $max = 50)
     {
         if (!Validator::validateAlphabetic2($value)) {
             $this->data_error = 'El nombre debe ser un valor alfabético';
@@ -37,7 +37,7 @@ class usuarioData extends UsuariosHandler
             return false;
         }
     }
-    public function setCorreo($value, $min = 8, $max = 100)
+    public function setCorreoUsuario($value, $min = 8, $max = 100)
     {
         if (!Validator::validateEmail($value)) {
             $this->data_error = 'El correo no es válido';
@@ -50,7 +50,7 @@ class usuarioData extends UsuariosHandler
             return false;
         }
     }
-    public function setUsername($value, $min = 6, $max = 25)
+    public function setUsernameUsuario($value, $min = 6, $max = 25)
     {
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El usuario debe ser un valor alfanumérico';
@@ -64,7 +64,7 @@ class usuarioData extends UsuariosHandler
         }
     }
 
-    public function setFecha($value)
+    public function setFechaNacimiento($value)
     {
         // Verificar si el formato de la fecha es correcto (YYYY-MM-DD)
         $fecha = DateTime::createFromFormat('Y-m-d', $value);
@@ -95,7 +95,7 @@ class usuarioData extends UsuariosHandler
         return true;
     }
 
-    public function setTelefono($value)
+    public function setTelefonoUsuario($value)
     {
         // Eliminar todos los caracteres no numéricos del número de teléfono
         $value = preg_replace('/\D/', '', $value);
@@ -110,13 +110,13 @@ class usuarioData extends UsuariosHandler
         }
     }
     
-    public function setDireccion($value, $min = 6, $max = 5000)
+    public function setDireccionUsuario($value, $min = 6, $max = 5000)
     {
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'La direccion debe ser un valor alfanumérico';
             return false;
         } elseif (Validator::validateLength($value, $min, $max)) {
-            $this->direccion = $value;
+            $this->direccion_usuario = $value;
             return true;
         } else {
             $this->data_error = 'La direccion debe tener una longitud entre ' . $min . ' y ' . $max;
@@ -136,7 +136,7 @@ class usuarioData extends UsuariosHandler
     }
 
     
-    public function setNombreRol($value)
+    public function setIdRol($value)
     {
         if (Validator::validateNaturalNumber($value)) {
             $this->id_rol = $value;
@@ -147,7 +147,7 @@ class usuarioData extends UsuariosHandler
         }
     }
 
-    public function setClave($value)
+    public function setContrasenaUsuario($value)
     {
         // Array con los datos que no se deben incluir en la contraseña
         $user_data = [$this->nombre_usuario, $this->username_usuario, $this->correo_usuario];
