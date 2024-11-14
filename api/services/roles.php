@@ -1,7 +1,7 @@
 <?php
 // Se incluye la clase del modelo.
-require_once('../../models/data/rol_data.php');
-require_once '../../helpers/security.php';
+require_once('../models/data/rol_data.php');
+require_once '../helpers/security.php';
 
 // Configurar las cabeceras de seguridad.
 Security::setClickjackingProtection();
@@ -34,15 +34,15 @@ if (isset($_GET['action'])) {
             case 'createRow':
                 $_POST = Validator::validateForm($_POST);
                 if (
-                    !$roles->setNombre($_POST['nombreRol']) ||
+                    !$roles->setNombre($_POST['nombreRol']) or
                     !$roles->setDesc($_POST['descripcionRol'])
                 ) {
                     $result['error'] = $roles->getDataError();
                 } elseif ($roles->createRow()) {
                     $result['status'] = 1;
-                    $result['message'] = 'Rol agregado correctamente';
+                    $result['message'] = 'Rol creado correctamente';
                 } else {
-                    $result['error'] = $roles->getDataError() ?: 'Ocurrió un problema al agregar el rol';
+                    $result['error'] = 'Ocurrió un problema al crear el rol';
                 }
                 break;
 
@@ -88,12 +88,9 @@ if (isset($_GET['action'])) {
                 if (!$roles->setId($_POST['idRol'])) {
                     $result['error'] = $roles->getDataError();
                 } else {
-                    // Obtener el nombre del rol antes de eliminarlo
-                    $nombreRol = $roles->setNombre();
-
                     if ($roles->deleteRow()) {
                         $result['status'] = 1;
-                        $result['message'] = 'Rol "' . $nombreRol . '" eliminado correctamente.';
+                        $result['message'] = 'Rol eliminado correctamente.';
                     } else {
                         $result['error'] = 'Ocurrió un problema al eliminar el rol.';
                     }

@@ -11,64 +11,109 @@
 </head>
 
 <body>
-   
     <!-- Contenido principal -->
     <div class="main-content">
         <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
             <div class="container-fluid px-4">
                 <div class="space">
-                    
+
                 </div>
                 <div class="d-flex">
-                    <button class="btn btn-primary" onclick="showNewUserModal()">
+                    <button class="btn btn-primary" onclick="openCreate()">
                         <i class="fas fa-plus me-2"></i>Nuevo rol
                     </button>
                 </div>
             </div>
         </nav>
-
         <div id="mainContent"></div>
-    </div>
-    
 
-    <!-- Loading Indicator -->
-    <div class="loading" id="loadingIndicator">
-        <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Cargando...</span>
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
         </div>
-    </div>
+        <h1>Gestionar roles</h1>
+        <!-- Formulario de búsqueda -->
+        <div class="row">
+            <form class="col-sm-12 col-md-6" id="searchForm">
+                <div class="row">
+                    <div class="col-6">
+                        <!-- Campo de búsqueda -->
+                        <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de marca"
+                            required autocomplete="off">
+                    </div>
+                    <div class="col-6">
+                        <!-- Botón de búsqueda -->
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <!-- Botón de restablecer -->
+                        <button type="reset" class="btn btn-secondary" onclick="fillTable()">
+                            <i class="bi bi-x-square-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
 
-    <!-- Modal para Nuevo Usuario -->
-    <div class="modal fade" id="newUserModal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Nuevo rol</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="newUserForm">
-                        <div class="mb-3">
-                            <label class="form-label">Nombre del rol</label>
-                            <input type="text" class="form-control" required>
+            <br><br><br>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Nombre del rol</th>
+                            <th>Descripción</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <!-- Cuerpo de la tabla -->
+                    <tbody id="tableBody"></tbody>
+            </div>
+
+            <!-- Modal para Nuevo/Editar Rol -->
+            <div class="modal fade" id="saveModal" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Gestionar rol</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Descripción</label>
-                            <input type="email" class="form-control" required>
-                        </div>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-primary" onclick="createUser()">Crear Usuario</button>
+                        <form id="saveForm">
+                            <div class="modal-body">
+                                <input type="hidden" id="idRol" name="idRol">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre del rol</label>
+                                    <input type="text" class="form-control" id="nombreRol" name="nombreRol" required
+                                        autocomplete="off">
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción</label>
+                                    <input type="text" class="form-control" id="descripcionRol" name="descripcionRol"
+                                        required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
+
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
-    <script type="text/javascript" src="../controllers/roles.js"></script>
+    <!-- SweetAlert JS -->
+    <script type="text/javascript" src="../resources/js/sweetalert.min.js"></script>
     <script type="text/javascript" src="../controllers/plantilla.js"></script>
+    <script type="text/javascript" src="../controllers/utils/components.js"></script>
+    <script type="text/javascript" src="../controllers/roles.js"></script>
 
 </body>
 

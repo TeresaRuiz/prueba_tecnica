@@ -1,170 +1,124 @@
-// Constantes para completar las rutas de la API.
+// Constantes para completar las rutas de la API
 const ROLES_API = 'services/roles.php';
-// Constante para establecer el formulario de buscar.
-const SEARCH_FORM = document.getElementById('searchForm');
-// Constantes para establecer el contenido de la tabla.
-const TABLE_BODY = document.getElementById('tableBody'),
-    ROWS_FOUND = document.getElementById('rowsFound');
-// Constantes para establecer los elementos del componente Modal.
-const SAVE_MODAL = new bootstrap.Modal('#saveModal'),
-    MODAL_TITLE = document.getElementById('modalTitle');
-// Constantes para establecer los elementos del formulario de guardar.
-const SAVE_FORM = document.getElementById('saveForm'),
-    ID_ROL = document.getElementById('idRol'),
-    NOMBRE_COLOR = document.getElementById('nombreRol'),
-    DESCRIPCION = document.getElementById('descripcionRol');
-// Se establece el título de la página web.
-document.querySelector('title').textContent = 'Roles';
 
-// Método del evento para cuando el documento ha cargado.
+// Elementos del DOM
+const SEARCH_FORM = document.getElementById('searchForm');
+const TABLE_BODY = document.getElementById('tableBody');
+const SAVE_MODAL = new bootstrap.Modal('#saveModal');
+const SAVE_FORM = document.getElementById('saveForm');
+const ID_ROL = document.getElementById('idRol');
+const NOMBRE_ROL = document.getElementById('nombreRol');
+const DESCRIPCION = document.getElementById('descripcionRol');
+const LOADING_INDICATOR = document.getElementById('loadingIndicator');
+
+// Función para mostrar/ocultar el indicador de carga
+const toggleLoading = (show) => {
+    LOADING_INDICATOR.style.display = show ? 'flex' : 'none';
+};
+
+// Cargar la tabla cuando el documento esté listo
 document.addEventListener('DOMContentLoaded', () => {
-    // Llamada a la función para mostrar el encabezado y pie del documento.
-    loadTemplate();
-    // Se establece el título del contenido principal.
-    MAIN_TITLE.textContent = 'Gestionar roles';
-    // Llamada a la función para llenar la tabla con los registros existentes.
     fillTable();
 });
 
-// Método del evento para cuando se envía el formulario de buscar.
+// Evento para el formulario de búsqueda
 SEARCH_FORM.addEventListener('submit', (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    // Constante tipo objeto con los datos del formulario.
     const FORM = new FormData(SEARCH_FORM);
-    // Llamada a la función para llenar la tabla con los resultados de la búsqueda.
     fillTable(FORM);
 });
 
-// Método del evento para cuando se envía el formulario de guardar.
+// Evento para el formulario de guardar
 SAVE_FORM.addEventListener('submit', async (event) => {
-    // Se evita recargar la página web después de enviar el formulario.
     event.preventDefault();
-    // Se verifica la acción a realizar.
-    (ID_COLOR.value) ? action = 'updateRow' : action = 'createRow';
-    // Constante tipo objeto con los datos del formulario.
+    const action = ID_ROL.value ? 'updateRow' : 'createRow';
     const FORM = new FormData(SAVE_FORM);
-    // Petición para guardar los datos del formulario.
-    const DATA = await fetchData(COLOR_API, action, FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se cierra la caja de diálogo.
-        SAVE_MODAL.hide();
-        // Se muestra un mensaje de éxito.
-        sweetAlert(1, DATA.message, true);
-        // Se carga nuevamente la tabla para visualizar los cambios.
-        fillTable();
-    } else {
-        sweetAlert(2, DATA.error, false);
+    
+    try {
+        toggleLoading(true);
+        const DATA = await fetchData(ROLES_API, action, FORM);
+        
+        if (DATA.status) {
+            SAVE_MODAL.hide();
+            await sweetAlert(1, DATA.message, true);
+            fillTable();
+        } else {
+            await sweetAlert(2, DATA.error, false);
+        }
+    } catch (error) {
+        await sweetAlert(2, 'Error al procesar la solicitud', false);
+    } finally {
+        toggleLoading(false);
     }
 });
 
-/*
-*   Función asíncrona para llenar la tabla con los registros disponibles.
-*   Parámetros: form (objeto opcional con los datos de búsqueda).
-*   Retorno: ninguno.
-*/
+// Función para llenar la tabla
 const fillTable = async (form = null) => {
-    // Se inicializa el contenido de la tabla.
-    ROWS_FOUND.textContent = '';
-    TABLE_BODY.innerHTML = '';
-    // Se verifica la acción a realizar.
-    (form) ? action = 'searchRows' : action = 'readAll';
-    // Petición para obtener los registros disponibles.
-    const DATA = await fetchData(COLOR_API, action, form);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se recorre el conjunto de registros fila por fila.
-        DATA.dataset.forEach(row => {
-            // Se crean y concatenan las filas de la tabla con los datos de cada registro.
-            TABLE_BODY.innerHTML += `
-                <tr>
-                    <td>${row.color}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td>
-                <button type="button" class="btn btn-info  me-2 mb-2 mb-sm-2" onclick="openUpdate(${row.id_color})">
-                            <i class="bi bi-pencil-fill"></i>
-                        </button>
-                <button type="button" class="btn btn-danger  me-2 mb-2 mb-sm-2" onclick="openDelete(${row.id_color})">
-                    <i class="bi bi-trash-fill"></i>
-                </button>                
-                    </td>
-                </tr>
-            `;
-        });
-        // Se muestra un mensaje de acuerdo con el resultado.
-        ROWS_FOUND.textContent = DATA.message;
-    } else {
-        sweetAlert(4, DATA.error, true);
-    }
-}
+    try {
+        toggleLoading(true);
+        TABLE_BODY.innerHTML = '';
+        const action = form ? 'searchRows' : 'readAll';
+        const DATA = await fetchData(ROLES_API, action, form);
 
-/*
-*   Función para preparar el formulario al momento de insertar un registro.
-*   Parámetros: ninguno.
-*   Retorno: ninguno.
-*/
+        if (DATA.status) {
+            DATA.dataset.forEach(row => {
+                TABLE_BODY.innerHTML += `
+                    <tr>
+                        <td>${row.id_rol}</td>
+                        <td>${row.nombre_rol}</td>
+                        <td>${row.descripcion_rol}</td>
+                        <td>
+                            <button class="btn btn-sm btn-outline-primary me-1" 
+                                    onclick="openUpdate(${row.id_rol})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-outline-danger" 
+                                    onclick="openDelete(${row.id_rol})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        } else {
+            await sweetAlert(4, DATA.error, true);
+        }
+    } catch (error) {
+        await sweetAlert(2, 'Error al cargar los datos', false);
+    } finally {
+        toggleLoading(false);
+    }
+};
+
+// Función para abrir el modal de crear
 const openCreate = () => {
-    // Se muestra la caja de diálogo con su título.
     SAVE_MODAL.show();
-    MODAL_TITLE.textContent = 'Agregar un nuevo color';
-    // Se prepara el formulario.
     SAVE_FORM.reset();
-    ID_COLOR.disabled = false;
-    NOMBRE_COLOR.disabled = false;
-}
+};
 
-/*
-*   Función asíncrona para preparar el formulario al momento de actualizar un registro.
-*   Parámetros: id (identificador del registro seleccionado).
-*   Retorno: ninguno.
-*/
+// Función para abrir el modal de actualizar
 const openUpdate = async (id) => {
-    // Se define una constante tipo objeto con los datos del registro seleccionado.
-    const FORM = new FormData();
-    FORM.append('idColor', id);
-    // Petición para obtener los datos del registro solicitado.
-    const DATA = await fetchData(COLOR_API, 'readOne', FORM);
-    // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
-    if (DATA.status) {
-        // Se muestra la caja de diálogo con su título.
-        SAVE_MODAL.show();
-        MODAL_TITLE.textContent = 'Actualizar color';
-        // Se prepara el formulario.
-        SAVE_FORM.reset();
-        // Se inicializan los campos con los datos.
-        const ROW = DATA.dataset;
-        ID_COLOR.value = ROW.id_color;
-        NOMBRE_COLOR.value = ROW.color;
-    } else {
-        sweetAlert(2, DATA.error, false);
+    try {
+        toggleLoading(true);
+        const FORM = new FormData();
+        FORM.append('idRol', id);
+        const DATA = await fetchData(ROLES_API, 'readOne', FORM);
+
+        if (DATA.status) {
+            SAVE_MODAL.show();
+            const ROW = DATA.dataset;
+            ID_ROL.value = ROW.id_rol;
+            NOMBRE_ROL.value = ROW.nombre_rol;
+            DESCRIPCION.value = ROW.descripcion_rol;
+        } else {
+            await sweetAlert(2, DATA.error, false);
+        }
+    } catch (error) {
+        await sweetAlert(2, 'Error al cargar el registro', false);
+    } finally {
+        toggleLoading(false);
     }
-}
+};
 
 /*
 *   Función asíncrona para eliminar un registro.
@@ -173,14 +127,14 @@ const openUpdate = async (id) => {
 */
 const openDelete = async (id) => {
     // Llamada a la función para mostrar un mensaje de confirmación, capturando la respuesta en una constante.
-    const RESPONSE = await confirmAction('¿Desea eliminar el color de forma permanente?');
+    const RESPONSE = await confirmAction('¿Desea eliminar el rol de forma permanente?');
     // Se verifica la respuesta del mensaje.
     if (RESPONSE) {
         // Se define una constante tipo objeto con los datos del registro seleccionado.
         const FORM = new FormData();
-        FORM.append('idColor', id);
+        FORM.append('idRol', id);
         // Petición para eliminar el registro seleccionado.
-        const DATA = await fetchData(COLOR_API, 'deleteRow', FORM);
+        const DATA = await fetchData(ROLES_API, 'deleteRow', FORM);
         // Se comprueba si la respuesta es satisfactoria, de lo contrario se muestra un mensaje con la excepción.
         if (DATA.status) {
             // Se muestra un mensaje de éxito.
