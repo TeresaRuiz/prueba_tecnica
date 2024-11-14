@@ -7,7 +7,7 @@
     <title>Roles de usuarios</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="styles.css" rel="stylesheet">
+    <link rel="stylesheet" href="../resources/css/styles.css">
 </head>
 
 <body>
@@ -41,17 +41,17 @@
                 <div class="row">
                     <div class="col-6">
                         <!-- Campo de búsqueda -->
-                        <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de marca"
+                        <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de estado"
                             required autocomplete="off">
                     </div>
                     <div class="col-6">
                         <!-- Botón de búsqueda -->
                         <button type="submit" class="btn btn-success">
-                            <i class="bi bi-search"></i>
+                            <i class="fa-solid fa-magnifying-glass"></i>
                         </button>
                         <!-- Botón de restablecer -->
                         <button type="reset" class="btn btn-secondary" onclick="fillTable()">
-                            <i class="bi bi-x-square-fill"></i>
+                            <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
                 </div>
@@ -111,7 +111,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
     <!-- SweetAlert JS -->
     <script type="text/javascript" src="../resources/js/sweetalert.min.js"></script>
-    <script type="text/javascript" src="../controllers/plantilla.js"></script>
+    <script type="text/javascript" src="../controllers/utils/plantilla.js"></script>
     <script type="text/javascript" src="../controllers/utils/components.js"></script>
     <script type="text/javascript" src="../controllers/estados.js"></script>
 

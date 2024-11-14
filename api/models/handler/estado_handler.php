@@ -10,6 +10,24 @@ class EstadoHandler
     protected $nombre = null;
     protected $descripcion = null;
 
+    public function searchRows()
+    {
+        // Obtener el valor de búsqueda desde el input del usuario (validado previamente)
+        $value = '%' . Validator::getSearchValue() . '%';
+
+        // Consulta SQL para TB_ESTADOS
+        $sql = 'SELECT id_estado, nombre_estado, descripcion_estado
+            FROM TB_ESTADOS
+            WHERE nombre_estado LIKE ? OR descripcion_estado LIKE ?
+            ORDER BY nombre_estado';
+
+        // Parámetros para la consulta
+        $params = array($value, $value);
+
+        // Ejecutar la consulta y retornar los resultados
+        return Database::getRows($sql, $params);
+    }
+
     // Método para obtener todos los estados
     public function readAll()
     {

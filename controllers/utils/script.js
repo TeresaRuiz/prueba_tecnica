@@ -7,7 +7,7 @@ const mockData = {
         // Agrega más usuarios aquí
     ],
     stats: {
-        total: 1234,
+        total: 5,
         active: 892,
         pending: 145,
         newToday: 24

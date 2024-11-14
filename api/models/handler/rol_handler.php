@@ -10,6 +10,26 @@ class RolHandler
     protected $nombre = null;
     protected $descripcion = null;
 
+
+    public function searchRows()
+    {
+        // Obtener el valor de búsqueda desde el input del usuario (validado previamente)
+        $value = '%' . Validator::getSearchValue() . '%';
+
+        // Consulta SQL para TB_ROLES
+        $sql = 'SELECT id_rol, nombre_rol, descripcion_rol
+            FROM TB_ROLES
+            WHERE nombre_rol LIKE ? OR descripcion_rol LIKE ?
+            ORDER BY nombre_rol';
+
+        // Parámetros para la consulta
+        $params = array($value, $value);
+
+        // Ejecutar la consulta y retornar los resultados
+        return Database::getRows($sql, $params);
+    }
+
+
     // Método para obtener todos los roles
     public function readAll()
     {
