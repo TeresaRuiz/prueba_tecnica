@@ -1,35 +1,40 @@
-# Proyecto Prueba Técnica
+# ✨ Proyecto Prueba Técnica ✨
 
-Este proyecto es una API en PHP con MySQL, alojada en un entorno XAMPP. La API permite gestionar usuarios y está configurada para ser ejecutada en el servidor local.
+Este proyecto consiste en una API construida en **PHP** y **MySQL**, y alojada en un entorno **XAMPP**. Su objetivo principal es gestionar usuarios de manera eficiente. Todo está configurado para ejecutarse en un servidor local.
 
-## Requisitos del Entorno
+---
 
-- [XAMPP](https://www.apachefriends.org/) (Incluye Apache, PHP y MySQL).
-- PHP versión compatible con el proyecto.
-- Git para clonar el repositorio.
+## 🛠️ Requisitos del Entorno
 
-## Instrucciones para Configurar el Entorno
+1. **[XAMPP](https://www.apachefriends.org/)**: Incluye Apache, PHP y MySQL.
+2. **PHP**: Asegúrate de que tu versión sea compatible con el proyecto.
+3. **Git**: Para clonar el repositorio.
 
-1. **Descargar XAMPP**
-   - Instala [XAMPP](https://www.apachefriends.org/) y asegúrate de activar Apache y MySQL desde el panel de control.
+---
 
-2. **Clonar el Repositorio**
-   - En una terminal, ejecuta los siguientes comandos:
+## 🚀 Pasos para Configurar el Entorno
+
+### 1️⃣ Instalar XAMPP
+   - Descarga e instala [XAMPP](https://www.apachefriends.org/).
+   - Activa **Apache** y **MySQL** desde el panel de control de XAMPP.
+
+### 2️⃣ Clonar el Repositorio
+   - En tu terminal, ejecuta los siguientes comandos para descargar el proyecto:
      ```bash
      git clone https://github.com/TeresaRuiz/prueba_tecnica
      cd prueba_tecnica
      ```
 
-3. **Configurar la Base de Datos**
-   - Abre `phpMyAdmin` desde el panel de control de XAMPP.
-   - Crea la base de datos ejecutando el siguiente comando SQL en `phpMyAdmin`:
+### 3️⃣ Configurar la Base de Datos
+   - Abre **phpMyAdmin** desde el panel de control de XAMPP.
+   - Crea la base de datos con el siguiente comando en **phpMyAdmin**:
      ```sql
      CREATE DATABASE USUARIOS_API;
      ```
-   - **Nota:** Puede usar un archivo SQL para el esquema de la base de datos, impórtandolo en `phpMyAdmin` en la base de datos `USUARIOS_API`.
+   - **Nota:** Si tienes un archivo SQL para el esquema, impórtalo en la base de datos `USUARIOS_API`.
 
-4. **Configurar el Archivo de Conexión a la Base de Datos**
-   - En el archivo de configuración de conexión (por ejemplo, `config.php`), asegúrate de que los datos de conexión sean correctos:
+### 4️⃣ Configurar la Conexión a la Base de Datos
+   - Abre el archivo de configuración de conexión, como `config.php`, y asegúrate de que los datos sean correctos:
      ```php
      define('DB_HOST', 'localhost');
      define('DB_NAME', 'USUARIOS_API');
@@ -37,49 +42,54 @@ Este proyecto es una API en PHP con MySQL, alojada en un entorno XAMPP. La API p
      define('DB_PASSWORD', 'tu_contraseña');
      ```
 
-5. **Iniciar el Servidor**
-   - Coloca el proyecto en la carpeta `htdocs` de XAMPP (`C:\xampp\htdocs\prueba_tecnica`).
+### 5️⃣ Iniciar el Servidor
+   - Coloca la carpeta del proyecto en `htdocs` dentro de XAMPP (`C:\xampp\htdocs\prueba_tecnica`).
    - Abre tu navegador y accede a `http://localhost/prueba_tecnica`.
 
-## Uso de la API
+---
+
+## 📡 Uso de la API
 
 ### Ejemplos de Peticiones en Postman
 
 1. **Vista de Inicio**
    - **URL:** `http://localhost/prueba_tecnica/views/indexx.html`
-   - **Método de Solicitud:** `GET`
-   - **Código de Estado Esperado:** `404 Not Found`
+   - **Método:** `GET`
+   - **Código de Estado:** `404 Not Found`
 
 2. **Leer Todos los Usuarios**
    - **URL:** `http://localhost/prueba_tecnica/api/services/usuario.php?action=readAll`
-   - **Método de Solicitud:** `GET`
-   - **Código de Estado Esperado:** `200 OK`
+   - **Método:** `GET`
+   - **Código de Estado:** `200 OK`
 
 3. **Crear Usuario**
    - **URL:** `http://localhost/prueba_tecnica/api/services/usuario.php?action=createRow`
-   - **Método de Solicitud:** `POST`
-   - **Código de Estado Esperado:** `200 OK`
+   - **Método:** `POST`
+   - **Código de Estado:** `200 OK`
 
-### URL para Pruebas
-   - La constante `SERVER_URL` se establece para realizar pruebas de la API:
+   **Nota:** La constante `SERVER_URL` está establecida para realizar pruebas de la API.
      ```javascript
      const SERVER_URL = 'http://localhost/prueba_tecnica/api/';
      ```
 
-## Estructura del Proyecto
+---
 
-El proyecto sigue una estructura modular para facilitar el mantenimiento y la organización:
+## 🗂️ Estructura del Proyecto
 
-- `api/`
-  - **services/**: Comunicación entre PHP y JavaScript.
-  - **helpers/**: Configuración de la base de datos.
-  - **models/**:
+La estructura modular del proyecto facilita su organización y mantenimiento:
+
+- **`api/`**: Contiene servicios, configuración y funciones SQL.
+  - **`services/`**: Comunicación entre PHP y JavaScript.
+  - **`helpers/`**: Configuración de la base de datos.
+  - **`models/`**:
     - **data/**: Validación de datos.
     - **handler/**: Funciones SQL.
 
-- `controllers/`: Maneja la comunicación entre JavaScript, HTML y la API.
+- **`controllers/`**: Gestiona la comunicación entre JavaScript, HTML y la API.
 
-- `resources/`: Archivos utilizados en todo el proyecto (CSS, JS compartido, etc.).
+- **`resources/`**: Archivos compartidos en el proyecto (CSS, JS, imágenes, etc.).
 
-- `views/`: Vista de la página, con interfaces de usuario.
+- **`views/`**: Contiene la interfaz de usuario.
+
+---
 
