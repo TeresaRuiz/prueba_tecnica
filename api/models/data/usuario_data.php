@@ -24,8 +24,27 @@ class usuarioData extends UsuariosHandler
             return false;
         }
     }
+    // Método genérico para verificar unicidad de campos
+    private function isUnique($campo, $valor)
+    {
+        if ($this->id_usuario) {  // Si id_usuario está definido, es una actualización
+            $checkSql = "SELECT COUNT(*) AS count FROM TB_USUARIOS WHERE $campo = ? AND id_usuario != ?";
+            $checkParams = array($valor, $this->id_usuario);
+        } else {  // Si id_usuario no está definido, es una creación de usuario
+            $checkSql = "SELECT COUNT(*) AS count FROM TB_USUARIOS WHERE $campo = ?";
+            $checkParams = array($valor);
+        }
+
+        $checkResult = Database::getRow($checkSql, $checkParams);
+        return $checkResult['count'] == 0;
+    }
+
     public function setNombreUsuario($value, $min = 2, $max = 50)
     {
+        if (!$this->isUnique('nombre_usuario', $value)) {
+            $this->data_error = 'El nombre de usuario ya existe';
+            return false;
+        }
         if (!Validator::validateAlphabetic2($value)) {
             $this->data_error = 'El nombre debe ser un valor alfabético';
             return false;
@@ -39,6 +58,10 @@ class usuarioData extends UsuariosHandler
     }
     public function setCorreoUsuario($value, $min = 8, $max = 100)
     {
+        if (!$this->isUnique('correo_usuario', $value)) {
+            $this->data_error = 'El correo ya está registrado';
+            return false;
+        }
         if (!Validator::validateEmail($value)) {
             $this->data_error = 'El correo no es válido';
             return false;
@@ -50,8 +73,13 @@ class usuarioData extends UsuariosHandler
             return false;
         }
     }
+
     public function setUsernameUsuario($value, $min = 6, $max = 25)
     {
+        if (!$this->isUnique('username_usuario', $value)) {
+            $this->data_error = 'El nombre de usuario ya está registrado';
+            return false;
+        }
         if (!Validator::validateAlphanumeric($value)) {
             $this->data_error = 'El usuario debe ser un valor alfanumérico';
             return false;
@@ -63,6 +91,7 @@ class usuarioData extends UsuariosHandler
             return false;
         }
     }
+
 
     public function setFechaNacimiento($value)
     {
@@ -97,10 +126,16 @@ class usuarioData extends UsuariosHandler
 
     public function setTelefonoUsuario($value)
     {
-        // Eliminar todos los caracteres no numéricos del número de teléfono
+        // Validar número de teléfono único
+        if (!$this->isUnique('telefono_usuario', $value)) {
+            $this->data_error = 'El número de teléfono ya está registrado';
+            return false;
+        }
+
+        // Eliminar caracteres no numéricos
         $value = preg_replace('/\D/', '', $value);
         
-        // Validar que el número de teléfono tenga al menos 7 dígitos
+        // Validar longitud del teléfono
         if (strlen($value) >= 8) {
             $this->telefono_usuario = $value;
             return true;
