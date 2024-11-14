@@ -44,6 +44,9 @@ function loadPage(page) {
             case 'users':
                 loadUsers();
                 break;
+                case 'roles':
+                loadRoles();
+                break;
             // Agregar más casos según necesidad
         }
         hideLoading();
@@ -143,22 +146,6 @@ function showNewUserModal() {
     modal.show();
 }
 
-// Crear usuario (lógica por añadir)
-function createUser() {
-    // Aquí puedes agregar la lógica para crear un nuevo usuario
-    alert("Usuario creado exitosamente");
-    const modal = bootstrap.Modal.getInstance(document.getElementById('newUserModal'));
-    modal.hide();
-}
-
-// Editar y eliminar usuarios (funciones de ejemplo)
-function editUser(id) {
-    alert(`Editando usuario con ID: ${id}`);
-}
-
-function deleteUser(id) {
-    alert(`Eliminando usuario con ID: ${id}`);
-}
 
 // Inicializa la página de dashboard por defecto
 document.addEventListener('DOMContentLoaded', () => {
