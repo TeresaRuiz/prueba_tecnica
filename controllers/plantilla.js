@@ -4,7 +4,7 @@ function createSidebar() {
         { href: 'index.html', icon: 'fas fa-home', text: 'Dashboard', page: 'dashboard' },
         { href: 'usuarios.html', icon: 'fas fa-users', text: 'Usuarios', page: 'users' },
         { href: 'roles.html', icon: 'fas fa-user-tag', text: 'Roles', page: 'roles' },
-        { href: '#', icon: 'fas fa-cog', text: 'Configuración', page: 'settings' }
+        { href: 'estados.html', icon: 'fas fa-cog', text: 'Estado', page: 'settings' }
     ];
 
     const sidebarHTML = `
