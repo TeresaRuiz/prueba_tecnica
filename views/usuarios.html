@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion de usuarios</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Contenido principal -->
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+            <div class="container-fluid px-4">
+                <div class="space">
+
+                </div>
+                <div class="d-flex">
+                    <button class="btn btn-primary" onclick="openCreate()">
+                        <i class="fas fa-plus me-2"></i>Nuevos usuarios
+                    </button>
+                </div>
+            </div>
+        </nav>
+        <div id="mainContent"></div>
+
+
+        <!-- Loading Indicator -->
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Cargando...</span>
+            </div>
+        </div>
+        <h1>Gestionar usuarios</h1>
+        <!-- Formulario de búsqueda -->
+        <div class="row">
+            <form class="col-sm-12 col-md-6" id="searchForm">
+                <div class="row">
+                    <div class="col-6">
+                        <!-- Campo de búsqueda -->
+                        <input type="search" class="form-control" name="search" placeholder="Buscar por nombre de marca"
+                            required autocomplete="off">
+                    </div>
+                    <div class="col-6">
+                        <!-- Botón de búsqueda -->
+                        <button type="submit" class="btn btn-success">
+                            <i class="bi bi-search"></i>
+                        </button>
+                        <!-- Botón de restablecer -->
+                        <button type="reset" class="btn btn-secondary" onclick="fillTable()">
+                            <i class="bi bi-x-square-fill"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+
+            <br><br><br>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Usuario</th>
+                            <th>Correo</th>
+                            <th>Rol</th>
+                            <th>Estado</th>
+                            <th>Fecha de registro</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <!-- Cuerpo de la tabla -->
+                    <tbody id="tableBody"></tbody>
+            </div>
+
+            <!-- Modal para Nuevo/Editar Rol -->
+            <div class="modal fade" id="saveModal" tabindex="-1">
+                <div class="modal-dialog modal-lg"> <!-- Modal más grande -->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Gestionar usuarios</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <form id="saveForm">
+                            <div class="modal-body">
+                                <div class="row"> <!-- Contenedor para las filas de los campos -->
+                                    <!-- Columna 1 -->
+                                    <input type="hidden" id="idUsuario" name="idUsuario">
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Nombre del usuario</label>
+                                        <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" required autocomplete="off">
+
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Correo</label>
+                                        <input type="email" class="form-control" id="correo_usuario"
+                                            name="correo_usuario" required autocomplete="off">
+                                    </div>
+                                    <!-- Columna 2 -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Nombre de Usuario</label>
+                                        <input type="text" class="form-control" id="username_usuario"
+                                            name="username_usuario" required autocomplete="off">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Contraseña</label>
+                                        <input type="password" class="form-control" id="password_usuario"
+                                            name="password_usuario" required autocomplete="off">
+                                    </div>
+                                    <!-- Columna 3 -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Confirmar contraseña</label>
+                                        <input type="password" class="form-control" id="password_confirmar"
+                                            name="password_confirmar" required autocomplete="off">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Fecha de Nacimiento</label>
+                                        <input type="date" class="form-control" id="fecha_nacimiento"
+                                            name="fecha_nacimiento" autocomplete="off">
+                                    </div>
+                                    <!-- Columna 4 -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Teléfono</label>
+                                        <input type="number" class="form-control" id="telefono_usuario"
+                                            name="telefono_usuario" autocomplete="off">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Dirección</label>
+                                        <input type="text" class="form-control" id="direccion_usuario"
+                                            name="direccion_usuario" autocomplete="off">
+                                    </div>
+                                    <!-- Columna 5 -->
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Rol</label>
+                                        <select class="form-control" id="nombreRol" name="id_rol">
+                                            <!-- Opciones de roles aquí -->
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label class="form-label">Estado</label>
+                                        <select class="form-control" id="Estado" name="id_estado">
+                                            <!-- Opciones de estados aquí -->
+                                        </select>
+                                    </div>
+                                </div> <!-- Fin de row -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert JS -->
+    <script type="text/javascript" src="../resources/js/sweetalert.min.js"></script>
+    <script type="text/javascript" src="../controllers/plantilla.js"></script>
+    <script type="text/javascript" src="../controllers/utils/components.js"></script>
+    <script type="text/javascript" src="../controllers/usuario.js"></script>
+
+</body>
+
+</html>

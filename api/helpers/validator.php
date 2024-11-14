@@ -202,6 +202,12 @@ class Validator
         }
     }
 
+    public static function validateAlphabetic2($value)
+    {
+        return preg_match('/^[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+$/', $value);
+    }
+
+
     /*
      *   Método para validar un dato alfanumérico (letras, dígitos y espacios en blanco).
      *   Parámetros: $value (dato a validar).
