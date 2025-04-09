@@ -1,0 +1,126 @@
+    // Programa realizado por Teresa Ruiz y Ricardo Pérez
+    // Día: 09 de abril, 2025
+    Console.WindowHeight = 25;
+    Console.WindowWidth = 75;
+    Console.ForegroundColor = ConsoleColor.Black;
+    Console.BackgroundColor = ConsoleColor.White;
+    Console.Clear();
+    Console.Title = "Desafio 2, productividad por mes de una empresa";
+
+    int opcion;
+    bool continuar = true;
+
+    while (continuar)
+    {
+        Console.Clear();
+        Console.WriteLine("\n\t----------------------------------------");
+        Console.ForegroundColor = ConsoleColor.DarkGreen;
+        Console.WriteLine("\n\t   MENU DE MESES PARA PRODUCTIVIDAD");
+        Console.ForegroundColor = ConsoleColor.Black;
+        Console.WriteLine("\n\t[ 1] Enero       [ 2] Febrero");
+        Console.WriteLine("\t[ 3] Marzo       [ 4] Abril");
+        Console.WriteLine("\t[ 5] Mayo        [ 6] Junio");
+        Console.WriteLine("\t[ 7] Julio       [ 8] Agosto");
+        Console.WriteLine("\t[ 9] Septiembre  [10] Octubre");
+        Console.WriteLine("\t[11] Noviembre   [12] Diciembre");
+        Console.WriteLine("\n\t[ 0] SALIR");
+        Console.WriteLine("\n\t----------------------------------------");
+        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.Write("\tSeleccione un mes (0 - 12): ");
+        Console.ForegroundColor = ConsoleColor.Black;
+
+        try
+        {
+            opcion = int.Parse(Console.ReadLine());
+
+            if (opcion == 0)
+            {
+                Console.Write("\n\t¿Esta seguro que quiere salir del programa? (Y/N): ");
+                string salir = Console.ReadLine();
+                if (salir == "Y" || salir == "y")//las dos opciones son validas solo que en mayuscula o minuscula
+                {
+                    continuar = false;
+                    break;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+
+            int factor = ObtenerFactorPorMes(opcion);
+
+            if (factor == 0)
+            {
+                Console.WriteLine("\n\tEsta opción no es valida. Presiona una tecla para continuar...");
+                Console.ReadKey();
+                continue;
+            }
+
+            Console.Write("\n\tIngresa la cantidad de artículos que se han producido: ");
+            int articulos = int.Parse(Console.ReadLine());
+
+            if (articulos < 0)
+            {
+                Console.WriteLine("\n\tLa cantidad no puede ser negativa.");
+            }
+            else
+            {
+                int productividad = CalcularProductividad(articulos, factor);
+                Console.WriteLine("\n\tLa productividad del mes que seleccionaste es: " + productividad);
+            }
+        }
+        catch (FormatException)
+        {
+            Console.WriteLine("\n\tEsto no es válido. Debes ingresar un número entero.");
+        }
+
+        Console.WriteLine("\n\tPresione una tecla para volver al menú...");
+        Console.ReadKey();
+    }
+
+    // Como extra hicimos despedida con temporizador
+    Console.Clear();
+    Console.Write("\tGracias por usar el programa.");
+    Console.Write("\n\n\tEste programa se cerrará en: ");
+    for (int i = 3; i >= 0; i--)
+    {
+        Console.Write("\n\t" + i + " segundos ");
+        Thread.Sleep(1000);
+        Console.Beep();
+    }
+    Environment.Exit(0);
+}
+
+// Aquí usamos una función para calcular la productividad
+static int CalcularProductividad(int articulos, int factor)
+{
+    return articulos * factor;
+}
+
+// Función para conseguir el factor según el mes
+static int ObtenerFactorPorMes(int mes)
+{
+    switch (mes)
+    {
+        case 1:
+        case 2:
+        case 3:
+            return 7; //Son los tres primeros meses, enero, febrero y marzo
+        case 4:
+        case 5:
+        case 6:
+            return 71;// Abril, Mayo y Junio tienen factor 71.
+        case 7:
+        case 8:
+            return 28; // Julio y Agosto tienen factor 28.
+        case 9:
+        case 10:
+        case 11:
+            return 89; // Septiembre, Octubre y Noviembre tienen factor 89.
+        case 12:
+            return 64; //Diciembre tiene factor 64.
+        default:
+            return 0;// por si el usuario quiere salirse del programa
+    }
+}
